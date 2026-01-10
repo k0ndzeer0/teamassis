@@ -10,18 +10,18 @@
 </head>
 <body class="bg-gray-50">
     <!-- Container Principal -->
-    <div id="app" class="min-h-screen">
+    <div id="app" class="min-h-screen"> 
         <!-- Tela de Login/Cadastro (DESABILITADA TEMPORARIAMENTE) -->
         <div id="login-screen" class="login-container hidden">
             <div class="max-w-md mx-auto mt-20 p-10 bg-white rounded-2xl shadow-2xl border-2 border-orange-100 relative overflow-hidden">
                 <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-orange-200 to-orange-100 rounded-full -mr-16 -mt-16 opacity-50"></div>
                 <div class="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-orange-100 to-orange-50 rounded-full -ml-12 -mb-12 opacity-50"></div>
                 <div class="text-center mb-8 relative z-10">
-                    <div class="inline-flex items-center justify-center w-24 h-24 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl mb-6 shadow-xl transform rotate-3 hover:rotate-6 transition-transform duration-300">
+                    <div class="inline-flex items-center justify-center w-24 h-24 bg-gradient-to-br from-orange-300 to-orange-400 rounded-2xl mb-6 shadow-xl transform rotate-3 hover:rotate-6 transition-transform duration-300">
                         <i class="fas fa-dumbbell text-white text-4xl"></i>
                     </div>
                     <h1 class="text-5xl font-black bg-gradient-to-r from-orange-600 via-orange-500 to-orange-600 bg-clip-text text-transparent mb-3 tracking-tight">TeamAssis</h1>
-                    <p class="text-orange-700 font-semibold text-lg">Gestão de Alunos e Treinos</p>
+                    <p class="text-orange-600 font-semibold text-lg">Gestão de Alunos e Treinos</p>
                 </div>
                 
                 <div id="login-form">
@@ -67,7 +67,7 @@
                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
                         </div>
                         <button type="submit" 
-                                class="w-full bg-gradient-to-r from-orange-500 to-orange-600 text-white py-3 px-6 rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all duration-300 font-bold shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                                class="w-full bg-gradient-to-r from-orange-300 to-orange-400 text-white py-3 px-6 rounded-xl hover:from-orange-400 hover:to-orange-500 transition-all duration-300 font-bold shadow-lg hover:shadow-xl transform hover:-translate-y-1">
                             Criar Conta
                         </button>
                     </form>
@@ -87,12 +87,12 @@
             <div id="sidebar" class="fixed left-0 top-0 h-full w-64 bg-secondary text-white shadow-lg z-10">
                 <div class="p-6 border-b-2 border-orange-100 bg-gradient-to-r from-orange-50 to-white">
                     <div class="flex items-center gap-3 mb-2">
-                        <div class="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center shadow-lg transform hover:scale-110 transition-transform">
+                        <div class="w-12 h-12 bg-gradient-to-br from-orange-300 to-orange-400 rounded-xl flex items-center justify-center shadow-lg transform hover:scale-110 transition-transform">
                             <i class="fas fa-dumbbell text-white text-xl"></i>
                         </div>
-                        <h2 class="text-2xl font-black text-orange-600">TeamAssis</h2>
+                        <h2 class="text-2xl font-black text-orange-500">TeamAssis</h2>
                     </div>
-                    <p class="text-sm text-orange-700 mt-1 font-semibold" id="personalName">Personal Trainer</p>
+                    <p class="text-sm text-orange-600 mt-1 font-semibold" id="personalName">Personal Trainer</p>
                 </div>
                 <nav class="mt-6">
                     <a href="#" data-page="dashboard" class="nav-item active">
@@ -121,8 +121,8 @@
                 <!-- Dashboard -->
                 <div id="page-dashboard" class="page-content">
                     <div class="mb-6">
-                        <h1 class="text-4xl font-black bg-gradient-to-r from-orange-600 to-orange-500 bg-clip-text text-transparent">Dashboard</h1>
-                        <p class="text-orange-700 mt-2 font-semibold">Gerencie seus alunos e treinos</p>
+                        <h1 class="text-4xl font-black bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text text-transparent">Dashboard</h1>
+                        <p class="text-orange-600 mt-2 font-semibold">Gerencie seus alunos e treinos</p>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
@@ -162,10 +162,10 @@
                     </div>
 
                     <div class="mb-6 flex gap-4">
-                        <button id="btnAddAluno" class="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-8 py-4 rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all duration-300 font-bold shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                        <button id="btnAddAluno" class="bg-gradient-to-r from-orange-300 to-orange-400 text-white px-8 py-4 rounded-xl hover:from-orange-400 hover:to-orange-500 transition-all duration-300 font-bold shadow-lg hover:shadow-xl transform hover:-translate-y-1">
                             <i class="fas fa-user-plus mr-2"></i> Adicionar Novo Aluno
                         </button>
-                        <button id="btnCriarTreino" class="bg-gradient-to-r from-orange-400 to-orange-500 text-white px-8 py-4 rounded-xl hover:from-orange-500 hover:to-orange-600 transition-all duration-300 font-bold shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                        <button id="btnCriarTreino" class="bg-gradient-to-r from-orange-300 to-orange-400 text-white px-8 py-4 rounded-xl hover:from-orange-400 hover:to-orange-500 transition-all duration-300 font-bold shadow-lg hover:shadow-xl transform hover:-translate-y-1">
                             <i class="fas fa-plus mr-2"></i> Criar Treino
                         </button>
                     </div>
@@ -201,7 +201,7 @@
                             <h1 class="text-3xl font-bold text-gray-800">Biblioteca de Exercícios</h1>
                             <p class="text-gray-600 mt-1">Gerencie sua biblioteca de exercícios</p>
                         </div>
-                        <button id="btnAddExercicio" class="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-8 py-4 rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all duration-300 font-bold shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                        <button id="btnAddExercicio" class="bg-gradient-to-r from-orange-300 to-orange-400 text-white px-8 py-4 rounded-xl hover:from-orange-400 hover:to-orange-500 transition-all duration-300 font-bold shadow-lg hover:shadow-xl transform hover:-translate-y-1">
                             <i class="fas fa-plus mr-2"></i> Adicionar Exercício
                         </button>
                     </div>
@@ -213,7 +213,7 @@
                 <!-- Página de Detalhes do Aluno -->
                 <div id="page-aluno-detalhes" class="page-content hidden">
                     <div class="mb-6">
-                        <button id="btnVoltarAlunos" class="text-orange-600 hover:text-orange-700 font-semibold mb-4 flex items-center hover:underline">
+                        <button id="btnVoltarAlunos" class="text-orange-500 hover:text-orange-600 font-semibold mb-4 flex items-center hover:underline">
                             <i class="fas fa-arrow-left mr-2"></i> Voltar para Alunos
                         </button>
                         <div id="alunoDetalhesContent">
@@ -225,7 +225,7 @@
                 <!-- Página de Criar Treino -->
                 <div id="page-criar-treino" class="page-content hidden">
                     <div class="mb-6">
-                        <button id="btnVoltarDashboard" class="text-orange-600 hover:text-orange-700 font-semibold mb-4 flex items-center hover:underline">
+                        <button id="btnVoltarDashboard" class="text-orange-500 hover:text-orange-600 font-semibold mb-4 flex items-center hover:underline">
                             <i class="fas fa-arrow-left mr-2"></i> Voltar para Dashboard
                         </button>
                         <h1 class="text-3xl font-bold text-gray-800 mb-4">Criar Novo Treino</h1>
@@ -238,7 +238,7 @@
                 <!-- Página de Visualizar Treino (Visão Aluno) -->
                 <div id="page-visualizar-treino" class="page-content hidden">
                     <div class="mb-6">
-                        <button id="btnVoltarDetalhes" class="text-orange-600 hover:text-orange-700 font-semibold mb-4 flex items-center hover:underline">
+                        <button id="btnVoltarDetalhes" class="text-orange-500 hover:text-orange-600 font-semibold mb-4 flex items-center hover:underline">
                             <i class="fas fa-arrow-left mr-2"></i> Voltar
                         </button>
                         <div id="visualizarTreinoContent">
@@ -318,7 +318,7 @@
                     </div>
                 </div>
                 <div class="flex gap-4 pt-4">
-                    <button type="submit" class="flex-1 bg-gradient-to-r from-orange-500 to-orange-600 text-white py-3 px-6 rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all duration-300 font-bold shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                    <button type="submit" class="flex-1 bg-gradient-to-r from-orange-300 to-orange-400 text-white py-3 px-6 rounded-xl hover:from-orange-400 hover:to-orange-500 transition-all duration-300 font-bold shadow-lg hover:shadow-xl transform hover:-translate-y-1">
                         Salvar Aluno
                     </button>
                     <button type="button" id="cancelModalAluno" class="flex-1 bg-gray-200 text-gray-700 py-3 px-6 rounded-xl hover:bg-gray-300 transition-all duration-300 font-semibold">
@@ -364,7 +364,7 @@
                            class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold">
                 </div>
                 <div class="flex gap-4 pt-4">
-                    <button type="submit" class="flex-1 bg-gradient-to-r from-orange-500 to-orange-600 text-white py-3 px-6 rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all duration-300 font-bold shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                    <button type="submit" class="flex-1 bg-gradient-to-r from-orange-300 to-orange-400 text-white py-3 px-6 rounded-xl hover:from-orange-400 hover:to-orange-500 transition-all duration-300 font-bold shadow-lg hover:shadow-xl transform hover:-translate-y-1">
                         Salvar Exercício
                     </button>
                     <button type="button" id="cancelModalExercicio" class="flex-1 bg-gray-200 text-gray-700 py-3 px-6 rounded-xl hover:bg-gray-300 transition-all duration-300 font-semibold">
@@ -436,7 +436,7 @@
                               class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold"></textarea>
                 </div>
                 <div class="flex gap-4 pt-4">
-                    <button type="submit" class="flex-1 bg-gradient-to-r from-orange-500 to-orange-600 text-white py-4 px-8 rounded-xl hover:from-orange-600 hover:to-orange-700 shadow-xl border-2 border-black hover:border-orange-700 transition-all duration-300 font-black transform hover:-translate-y-1">
+                    <button type="submit" class="flex-1 bg-gradient-to-r from-orange-300 to-orange-400 text-white py-4 px-8 rounded-xl hover:from-orange-400 hover:to-orange-500 shadow-xl border-2 border-black hover:border-orange-700 transition-all duration-300 font-black transform hover:-translate-y-1">
                         Salvar Pagamento
                     </button>
                     <button type="button" id="cancelModalPagamento" class="flex-1 bg-gray-200 text-gray-700 py-4 px-8 rounded-xl hover:bg-gray-300 transition-all duration-300 font-semibold">
@@ -520,7 +520,7 @@
                               class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold"></textarea>
                 </div>
                 <div class="flex gap-4 pt-4">
-                    <button type="submit" class="flex-1 bg-gradient-to-r from-orange-500 to-orange-600 text-white py-4 px-8 rounded-xl hover:from-orange-600 hover:to-orange-700 shadow-xl border-2 border-black hover:border-orange-700 transition-all duration-300 font-black transform hover:-translate-y-1">
+                    <button type="submit" class="flex-1 bg-gradient-to-r from-orange-300 to-orange-400 text-white py-4 px-8 rounded-xl hover:from-orange-400 hover:to-orange-500 shadow-xl border-2 border-black hover:border-orange-700 transition-all duration-300 font-black transform hover:-translate-y-1">
                         Salvar Consultoria
                     </button>
                     <button type="button" id="cancelModalConsultoria" class="flex-1 bg-gray-200 text-gray-700 py-4 px-8 rounded-xl hover:bg-gray-300 transition-all duration-300 font-semibold">
@@ -546,7 +546,7 @@
                 <div class="flex items-center justify-between">
                     <div class="flex items-center flex-1">
                         <div class="step-indicator active" data-step="1">
-                            <div class="w-10 h-10 rounded-full bg-orange-500 text-white flex items-center justify-center font-black border-2 border-black">1</div>
+                            <div class="w-10 h-10 rounded-full bg-orange-400 text-white flex items-center justify-center font-black border-2 border-black">1</div>
                             <p class="text-xs font-bold mt-1">Dados Básicos</p>
                         </div>
                         <div class="flex-1 h-1 bg-gray-300 mx-2"></div>
@@ -870,7 +870,7 @@
                         <i class="fas fa-arrow-left mr-2"></i> Anterior
                     </button>
                     <div class="flex-1"></div>
-                    <button type="button" id="btnNextStep" class="bg-gradient-to-r from-orange-500 to-orange-600 text-white py-3 px-6 rounded-xl hover:from-orange-600 hover:to-orange-700 shadow-xl border-2 border-black hover:border-orange-700 transition-all duration-300 font-black">
+                    <button type="button" id="btnNextStep" class="bg-gradient-to-r from-orange-300 to-orange-400 text-white py-3 px-6 rounded-xl hover:from-orange-400 hover:to-orange-500 shadow-xl border-2 border-black hover:border-orange-700 transition-all duration-300 font-black">
                         Próximo <i class="fas fa-arrow-right ml-2"></i>
                     </button>
                     <button type="submit" id="btnSubmitConsultoria" class="bg-gradient-to-r from-green-500 to-green-600 text-white py-3 px-6 rounded-xl hover:from-green-600 hover:to-green-700 shadow-xl border-2 border-black hover:border-green-700 transition-all duration-300 font-black hidden">
