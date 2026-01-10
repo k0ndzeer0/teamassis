@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TeamAssis - Gestão de Alunos e Treinos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-50">
+    <!-- Container Principal -->
+    <div id="app" class="min-h-screen">
+        <!-- Tela de Login/Cadastro (DESABILITADA TEMPORARIAMENTE) -->
+        <div id="login-screen" class="login-container hidden">
+            <div class="max-w-md mx-auto mt-20 p-10 bg-white rounded-2xl shadow-2xl border-2 border-orange-100 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-orange-200 to-orange-100 rounded-full -mr-16 -mt-16 opacity-50"></div>
+                <div class="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-orange-100 to-orange-50 rounded-full -ml-12 -mb-12 opacity-50"></div>
+                <div class="text-center mb-8 relative z-10">
+                    <div class="inline-flex items-center justify-center w-24 h-24 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl mb-6 shadow-xl transform rotate-3 hover:rotate-6 transition-transform duration-300">
+                        <i class="fas fa-dumbbell text-white text-4xl"></i>
+                    </div>
+                    <h1 class="text-5xl font-black bg-gradient-to-r from-orange-600 via-orange-500 to-orange-600 bg-clip-text text-transparent mb-3 tracking-tight">TeamAssis</h1>
+                    <p class="text-orange-700 font-semibold text-lg">Gestão de Alunos e Treinos</p>
+                </div>
+                
+                <div id="login-form">
+                    <h2 class="text-2xl font-semibold mb-6 text-center">Login</h2>
+                    <form id="loginForm" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                            <input type="email" id="loginEmail" required 
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Senha</label>
+                            <input type="password" id="loginPassword" required 
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                        </div>
+                        <button type="submit" 
+                                class="w-full bg-primary text-white py-2 px-4 rounded-lg hover:bg-primary-dark transition duration-200 font-medium">
+                            Entrar
+                        </button>
+                    </form>
+                    <p class="mt-4 text-center text-sm text-gray-600">
+                        Não tem conta? 
+                        <a href="#" id="showRegister" class="text-primary hover:underline font-medium">Cadastre-se</a>
+                    </p>
+                </div>
+
+                <div id="register-form" class="hidden">
+                    <h2 class="text-2xl font-semibold mb-6 text-center">Cadastro</h2>
+                    <form id="registerForm" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Nome Completo</label>
+                            <input type="text" id="registerName" required 
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                            <input type="email" id="registerEmail" required 
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Senha</label>
+                            <input type="password" id="registerPassword" required 
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                        </div>
+                        <button type="submit" 
+                                class="w-full bg-gradient-to-r from-orange-500 to-orange-600 text-white py-3 px-6 rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all duration-300 font-bold shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                            Criar Conta
+                        </button>
+                    </form>
+                    <p class="mt-4 text-center text-sm text-gray-600">
+                        Já tem conta? 
+                        <a href="#" id="showLogin" class="text-primary hover:underline font-medium">Fazer login</a>
+                    </p>
+                </div>
+
+                <div id="message" class="mt-4 hidden"></div>
+            </div>
+        </div>
+
+        <!-- Dashboard e Telas Principais -->
+        <div id="main-screen" class="hidden">
+            <!-- Sidebar -->
+            <div id="sidebar" class="fixed left-0 top-0 h-full w-64 bg-secondary text-white shadow-lg z-10">
+                <div class="p-6 border-b-2 border-orange-100 bg-gradient-to-r from-orange-50 to-white">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center shadow-lg transform hover:scale-110 transition-transform">
+                            <i class="fas fa-dumbbell text-white text-xl"></i>
+                        </div>
+                        <h2 class="text-2xl font-black text-orange-600">TeamAssis</h2>
+                    </div>
+                    <p class="text-sm text-orange-700 mt-1 font-semibold" id="personalName">Personal Trainer</p>
+                </div>
+                <nav class="mt-6">
+                    <a href="#" data-page="dashboard" class="nav-item active">
+                        <i class="fas fa-home mr-3"></i> Dashboard
+                    </a>
+                    <a href="#" data-page="alunos" class="nav-item">
+                        <i class="fas fa-users mr-3"></i> Alunos
+                    </a>
+                    <a href="#" data-page="biblioteca" class="nav-item">
+                        <i class="fas fa-dumbbell mr-3"></i> Biblioteca de Exercícios
+                    </a>
+                    <a href="#" data-page="financeiro" class="nav-item">
+                        <i class="fas fa-dollar-sign mr-3"></i> Financeiro
+                    </a>
+                    <a href="#" data-page="consultoria-profissional" class="nav-item">
+                        <i class="fas fa-user-md mr-3"></i> Consultoria Profissional
+                    </a>
+                    <a href="#" id="logout" class="nav-item text-red-500 hover:bg-red-50 hover:text-red-600">
+                        <i class="fas fa-sign-out-alt mr-3"></i> Sair
+                    </a>
+                </nav>
+            </div>
+
+            <!-- Conteúdo Principal -->
+            <div class="ml-64 p-6">
+                <!-- Dashboard -->
+                <div id="page-dashboard" class="page-content">
+                    <div class="mb-6">
+                        <h1 class="text-4xl font-black bg-gradient-to-r from-orange-600 to-orange-500 bg-clip-text text-transparent">Dashboard</h1>
+                        <p class="text-orange-700 mt-2 font-semibold">Gerencie seus alunos e treinos</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                        <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100 stats-card">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-500 text-sm font-medium uppercase tracking-wide">Total de Alunos</p>
+                                    <p class="text-4xl font-bold bg-gradient-to-r from-primary to-primary-dark bg-clip-text text-transparent mt-2" id="totalAlunos">0</p>
+                                </div>
+                                <div class="w-16 h-16 bg-gradient-to-br from-primary to-primary-dark rounded-xl flex items-center justify-center shadow-lg">
+                                    <i class="fas fa-users text-white text-2xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100 stats-card">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-500 text-sm font-medium uppercase tracking-wide">Treinos Criados</p>
+                                    <p class="text-4xl font-bold bg-gradient-to-r from-accent to-accent-dark bg-clip-text text-transparent mt-2" id="totalTreinos">0</p>
+                                </div>
+                                <div class="w-16 h-16 bg-gradient-to-br from-accent to-accent-dark rounded-xl flex items-center justify-center shadow-lg">
+                                    <i class="fas fa-clipboard-list text-white text-2xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100 stats-card">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-500 text-sm font-medium uppercase tracking-wide">Exercícios</p>
+                                    <p class="text-4xl font-bold bg-gradient-to-r from-green-500 to-green-600 bg-clip-text text-transparent mt-2" id="totalExercicios">0</p>
+                                </div>
+                                <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center shadow-lg">
+                                    <i class="fas fa-dumbbell text-white text-2xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-6 flex gap-4">
+                        <button id="btnAddAluno" class="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-8 py-4 rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all duration-300 font-bold shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                            <i class="fas fa-user-plus mr-2"></i> Adicionar Novo Aluno
+                        </button>
+                        <button id="btnCriarTreino" class="bg-gradient-to-r from-orange-400 to-orange-500 text-white px-8 py-4 rounded-xl hover:from-orange-500 hover:to-orange-600 transition-all duration-300 font-bold shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                            <i class="fas fa-plus mr-2"></i> Criar Treino
+                        </button>
+                    </div>
+
+                    <div>
+                        <h2 class="text-xl font-semibold text-gray-800 mb-4">Meus Alunos</h2>
+                        <div id="alunosList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <!-- Cards de alunos serão inseridos aqui via JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Página de Alunos -->
+                <div id="page-alunos" class="page-content hidden">
+                    <div class="mb-6 flex justify-between items-center">
+                        <div>
+                            <h1 class="text-3xl font-bold text-gray-800">Alunos</h1>
+                            <p class="text-gray-600 mt-1">Gerencie seus alunos</p>
+                        </div>
+                        <button id="btnAddAlunoFromPage" class="bg-primary text-white px-6 py-3 rounded-lg hover:bg-primary-dark transition duration-200 font-medium">
+                            <i class="fas fa-user-plus mr-2"></i> Novo Aluno
+                        </button>
+                    </div>
+                    <div id="alunosListPage" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <!-- Cards de alunos serão inseridos aqui -->
+                    </div>
+                </div>
+
+                <!-- Página de Biblioteca -->
+                <div id="page-biblioteca" class="page-content hidden">
+                    <div class="mb-6 flex justify-between items-center">
+                        <div>
+                            <h1 class="text-3xl font-bold text-gray-800">Biblioteca de Exercícios</h1>
+                            <p class="text-gray-600 mt-1">Gerencie sua biblioteca de exercícios</p>
+                        </div>
+                        <button id="btnAddExercicio" class="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-8 py-4 rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all duration-300 font-bold shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                            <i class="fas fa-plus mr-2"></i> Adicionar Exercício
+                        </button>
+                    </div>
+                    <div id="bibliotecaContent">
+                        <!-- Conteúdo da biblioteca será inserido aqui -->
+                    </div>
+                </div>
+
+                <!-- Página de Detalhes do Aluno -->
+                <div id="page-aluno-detalhes" class="page-content hidden">
+                    <div class="mb-6">
+                        <button id="btnVoltarAlunos" class="text-orange-600 hover:text-orange-700 font-semibold mb-4 flex items-center hover:underline">
+                            <i class="fas fa-arrow-left mr-2"></i> Voltar para Alunos
+                        </button>
+                        <div id="alunoDetalhesContent">
+                            <!-- Conteúdo dos detalhes será inserido aqui -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Página de Criar Treino -->
+                <div id="page-criar-treino" class="page-content hidden">
+                    <div class="mb-6">
+                        <button id="btnVoltarDashboard" class="text-orange-600 hover:text-orange-700 font-semibold mb-4 flex items-center hover:underline">
+                            <i class="fas fa-arrow-left mr-2"></i> Voltar para Dashboard
+                        </button>
+                        <h1 class="text-3xl font-bold text-gray-800 mb-4">Criar Novo Treino</h1>
+                        <div id="criarTreinoContent">
+                            <!-- Formulário de criar treino será inserido aqui -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Página de Visualizar Treino (Visão Aluno) -->
+                <div id="page-visualizar-treino" class="page-content hidden">
+                    <div class="mb-6">
+                        <button id="btnVoltarDetalhes" class="text-orange-600 hover:text-orange-700 font-semibold mb-4 flex items-center hover:underline">
+                            <i class="fas fa-arrow-left mr-2"></i> Voltar
+                        </button>
+                        <div id="visualizarTreinoContent">
+                            <!-- Conteúdo do treino será inserido aqui -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Página de Financeiro -->
+                <div id="page-financeiro" class="page-content hidden">
+                    <div class="mb-6">
+                        <h1 class="text-5xl font-black text-black mb-2">Financeiro</h1>
+                        <p class="text-black font-bold text-lg mt-2">Gerencie pagamentos e recebimentos</p>
+                    </div>
+                    <div id="financeiroContent">
+                        <!-- Conteúdo do financeiro será inserido aqui -->
+                    </div>
+                </div>
+
+                <!-- Página de Consultoria Profissional -->
+                <div id="page-consultoria-profissional" class="page-content hidden">
+                    <div class="mb-6">
+                        <h1 class="text-5xl font-black text-black mb-2">Consultoria Profissional</h1>
+                        <p class="text-black font-bold text-lg mt-2">Avaliação, planejamento e acompanhamento completo</p>
+                    </div>
+                    <div id="consultoriaProfissionalContent">
+                        <!-- Conteúdo será inserido aqui -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modais -->
+    <!-- Modal Cadastrar Aluno -->
+    <div id="modalAluno" class="modal hidden">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-6 pb-4 border-b-4 border-black">
+                <h2 class="text-3xl font-black text-black">Cadastrar Novo Aluno</h2>
+                <button id="closeModalAluno" class="text-black hover:text-red-600 border-2 border-black hover:border-red-600 rounded-lg p-2 transition-all duration-200">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+            </div>
+            <form id="formAluno" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Nome Completo *</label>
+                    <input type="text" id="alunoNome" required 
+                           class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold">
+                </div>
+                <div>
+                    <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Foto (URL)</label>
+                    <input type="url" id="alunoFoto" 
+                           placeholder="https://exemplo.com/foto.jpg"
+                           class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold">
+                </div>
+                <div>
+                    <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Contato (Telefone/Email) *</label>
+                    <input type="text" id="alunoContato" required 
+                           class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Peso Atual (kg) *</label>
+                        <input type="number" id="alunoPeso" step="0.1" required 
+                               class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Objetivo *</label>
+                        <select id="alunoObjetivo" required 
+                                class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold">
+                            <option value="">Selecione...</option>
+                            <option value="Emagrecimento">Emagrecimento</option>
+                            <option value="Hipertrofia">Hipertrofia</option>
+                            <option value="Condicionamento">Condicionamento</option>
+                            <option value="Saúde Geral">Saúde Geral</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="flex gap-4 pt-4">
+                    <button type="submit" class="flex-1 bg-gradient-to-r from-orange-500 to-orange-600 text-white py-3 px-6 rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all duration-300 font-bold shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                        Salvar Aluno
+                    </button>
+                    <button type="button" id="cancelModalAluno" class="flex-1 bg-gray-200 text-gray-700 py-3 px-6 rounded-xl hover:bg-gray-300 transition-all duration-300 font-semibold">
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Adicionar Exercício -->
+    <div id="modalExercicio" class="modal hidden">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-6 pb-4 border-b-4 border-black">
+                <h2 class="text-3xl font-black text-black">Adicionar Exercício</h2>
+                <button id="closeModalExercicio" class="text-black hover:text-red-600 border-2 border-black hover:border-red-600 rounded-lg p-2 transition-all duration-200">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+            </div>
+            <form id="formExercicio" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Nome do Exercício *</label>
+                    <input type="text" id="exercicioNome" required 
+                           class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold">
+                </div>
+                <div>
+                    <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Grupo Muscular *</label>
+                    <select id="exercicioGrupo" required 
+                            class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold">
+                        <option value="">Selecione...</option>
+                        <option value="Peito">Peito</option>
+                        <option value="Costas">Costas</option>
+                        <option value="Ombros">Ombros</option>
+                        <option value="Braços">Braços</option>
+                        <option value="Pernas">Pernas</option>
+                        <option value="Abdômen">Abdômen</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Link do Vídeo (YouTube)</label>
+                    <input type="url" id="exercicioVideo" 
+                           placeholder="https://youtube.com/watch?v=..."
+                           class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold">
+                </div>
+                <div class="flex gap-4 pt-4">
+                    <button type="submit" class="flex-1 bg-gradient-to-r from-orange-500 to-orange-600 text-white py-3 px-6 rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all duration-300 font-bold shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                        Salvar Exercício
+                    </button>
+                    <button type="button" id="cancelModalExercicio" class="flex-1 bg-gray-200 text-gray-700 py-3 px-6 rounded-xl hover:bg-gray-300 transition-all duration-300 font-semibold">
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Adicionar Pagamento -->
+    <div id="modalPagamento" class="modal hidden">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-6 pb-4 border-b-4 border-black">
+                <h2 class="text-3xl font-black text-black">Adicionar Pagamento</h2>
+                <button id="closeModalPagamento" class="text-black hover:text-red-600 border-2 border-black hover:border-red-600 rounded-lg p-2 transition-all duration-200">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+            </div>
+            <form id="formPagamento" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Aluno *</label>
+                    <select id="pagamentoAlunoId" required 
+                            class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold">
+                        <option value="">Selecione o aluno...</option>
+                    </select>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Valor (R$) *</label>
+                        <input type="number" id="pagamentoValor" step="0.01" min="0" required 
+                               class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Status *</label>
+                        <select id="pagamentoStatus" required 
+                                class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold">
+                            <option value="pago">Pago</option>
+                            <option value="pendente">Pendente</option>
+                            <option value="atrasado">Atrasado</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Data do Pagamento *</label>
+                        <input type="date" id="pagamentoDataPagamento" required 
+                               class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Data de Vencimento</label>
+                        <input type="date" id="pagamentoDataVencimento" 
+                               class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Método de Pagamento *</label>
+                    <select id="pagamentoMetodo" required 
+                            class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold">
+                        <option value="dinheiro">Dinheiro</option>
+                        <option value="pix">PIX</option>
+                        <option value="cartao">Cartão</option>
+                        <option value="transferencia">Transferência</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Observações</label>
+                    <textarea id="pagamentoObservacoes" rows="3" 
+                              class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold"></textarea>
+                </div>
+                <div class="flex gap-4 pt-4">
+                    <button type="submit" class="flex-1 bg-gradient-to-r from-orange-500 to-orange-600 text-white py-4 px-8 rounded-xl hover:from-orange-600 hover:to-orange-700 shadow-xl border-2 border-black hover:border-orange-700 transition-all duration-300 font-black transform hover:-translate-y-1">
+                        Salvar Pagamento
+                    </button>
+                    <button type="button" id="cancelModalPagamento" class="flex-1 bg-gray-200 text-gray-700 py-4 px-8 rounded-xl hover:bg-gray-300 transition-all duration-300 font-semibold">
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Adicionar Consultoria -->
+    <div id="modalConsultoria" class="modal hidden">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-6 pb-4 border-b-4 border-black">
+                <h2 class="text-3xl font-black text-black">Agendar Consultoria</h2>
+                <button id="closeModalConsultoria" class="text-black hover:text-red-600 border-2 border-black hover:border-red-600 rounded-lg p-2 transition-all duration-200">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+            </div>
+            <form id="formConsultoria" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Aluno *</label>
+                    <select id="consultoriaAlunoId" required 
+                            class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold">
+                        <option value="">Selecione o aluno...</option>
+                    </select>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Tipo de Consultoria *</label>
+                        <select id="consultoriaTipo" required 
+                                class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold">
+                            <option value="presencial">Presencial</option>
+                            <option value="online">Online</option>
+                            <option value="nutricional">Nutricional</option>
+                            <option value="fisioterapia">Fisioterapia</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Status *</label>
+                        <select id="consultoriaStatus" required 
+                                class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold">
+                            <option value="agendada">Agendada</option>
+                            <option value="realizada">Realizada</option>
+                            <option value="cancelada">Cancelada</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Data da Consulta *</label>
+                        <input type="date" id="consultoriaData" required 
+                               class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Hora *</label>
+                        <input type="time" id="consultoriaHora" required 
+                               class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold">
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Duração (minutos) *</label>
+                        <input type="number" id="consultoriaDuracao" min="15" step="15" value="60" required 
+                               class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Valor (R$)</label>
+                        <input type="number" id="consultoriaValor" step="0.01" min="0" 
+                               class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Observações</label>
+                    <textarea id="consultoriaObservacoes" rows="3" 
+                              class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold"></textarea>
+                </div>
+                <div>
+                    <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Notas da Consulta</label>
+                    <textarea id="consultoriaNotas" rows="4" 
+                              class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold"></textarea>
+                </div>
+                <div class="flex gap-4 pt-4">
+                    <button type="submit" class="flex-1 bg-gradient-to-r from-orange-500 to-orange-600 text-white py-4 px-8 rounded-xl hover:from-orange-600 hover:to-orange-700 shadow-xl border-2 border-black hover:border-orange-700 transition-all duration-300 font-black transform hover:-translate-y-1">
+                        Salvar Consultoria
+                    </button>
+                    <button type="button" id="cancelModalConsultoria" class="flex-1 bg-gray-200 text-gray-700 py-4 px-8 rounded-xl hover:bg-gray-300 transition-all duration-300 font-semibold">
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Iniciar Consultoria Profissional (Multi-etapas) -->
+    <div id="modalConsultoriaProfissional" class="modal hidden">
+        <div class="modal-content" style="max-width: 900px;">
+            <div class="flex justify-between items-center mb-6 pb-4 border-b-4 border-black">
+                <h2 class="text-3xl font-black text-black">Iniciar Consultoria Profissional</h2>
+                <button id="closeModalConsultoriaProfissional" class="text-black hover:text-red-600 border-2 border-black hover:border-red-600 rounded-lg p-2 transition-all duration-200">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+            </div>
+            
+            <!-- Indicador de Etapas -->
+            <div class="mb-6">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center flex-1">
+                        <div class="step-indicator active" data-step="1">
+                            <div class="w-10 h-10 rounded-full bg-orange-500 text-white flex items-center justify-center font-black border-2 border-black">1</div>
+                            <p class="text-xs font-bold mt-1">Dados Básicos</p>
+                        </div>
+                        <div class="flex-1 h-1 bg-gray-300 mx-2"></div>
+                        <div class="step-indicator" data-step="2">
+                            <div class="w-10 h-10 rounded-full bg-gray-300 text-gray-600 flex items-center justify-center font-black border-2 border-gray-400">2</div>
+                            <p class="text-xs font-bold mt-1">Anamnese</p>
+                        </div>
+                        <div class="flex-1 h-1 bg-gray-300 mx-2"></div>
+                        <div class="step-indicator" data-step="3">
+                            <div class="w-10 h-10 rounded-full bg-gray-300 text-gray-600 flex items-center justify-center font-black border-2 border-gray-400">3</div>
+                            <p class="text-xs font-bold mt-1">Contexto</p>
+                        </div>
+                        <div class="flex-1 h-1 bg-gray-300 mx-2"></div>
+                        <div class="step-indicator" data-step="4">
+                            <div class="w-10 h-10 rounded-full bg-gray-300 text-gray-600 flex items-center justify-center font-black border-2 border-gray-400">4</div>
+                            <p class="text-xs font-bold mt-1">Planejamento</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <form id="formConsultoriaProfissional" class="space-y-6">
+                <!-- ETAPA 1: Dados Básicos -->
+                <div id="step1" class="consultoria-step">
+                    <h3 class="text-2xl font-black text-black mb-4 pb-2 border-b-2 border-black">Dados do Aluno</h3>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Tipo de Consultoria *</label>
+                        <select id="consProfTipo" required onchange="App.toggleTipoConsultoria()"
+                                class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold">
+                            <option value="presencial">Presencial</option>
+                            <option value="online">Online</option>
+                        </select>
+                        <p class="text-xs text-gray-600 mt-2 italic">
+                            <i class="fas fa-info-circle mr-1"></i> Consultoria online gera um link de briefing para o aluno preencher.
+                        </p>
+                    </div>
+                    
+                    <div class="mb-4" id="consProfAlunoContainer">
+                        <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Aluno *</label>
+                        <select id="consProfAlunoId" required 
+                                class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold">
+                            <option value="">Selecione o aluno...</option>
+                        </select>
+                    </div>
+                    
+                    <div id="consProfAlunoNovoContainer" class="mb-4 hidden">
+                        <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Nome do Aluno *</label>
+                        <input type="text" id="consProfAlunoNomeNovo" 
+                               class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold"
+                               placeholder="Nome completo do aluno">
+                        <p class="text-xs text-gray-600 mt-2 italic">
+                            <i class="fas fa-info-circle mr-1"></i> O aluno será criado automaticamente após responder o briefing.
+                        </p>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Idade *</label>
+                            <input type="number" id="consProfIdade" min="1" max="120" required 
+                                   class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Sexo *</label>
+                            <select id="consProfSexo" required 
+                                    class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold">
+                                <option value="">Selecione...</option>
+                                <option value="masculino">Masculino</option>
+                                <option value="feminino">Feminino</option>
+                                <option value="outro">Outro</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Altura (m) *</label>
+                            <input type="number" id="consProfAltura" step="0.01" min="0.5" max="2.5" required 
+                                   class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Peso Inicial (kg) *</label>
+                            <input type="number" id="consProfPesoInicial" step="0.1" min="1" required 
+                                   class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold">
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">% Gordura Corporal</label>
+                            <input type="number" id="consProfPercentualGordura" step="0.1" min="0" max="100" 
+                                   class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Nível de Experiência *</label>
+                            <select id="consProfNivelExperiencia" required 
+                                    class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold">
+                                <option value="">Selecione...</option>
+                                <option value="iniciante">Iniciante</option>
+                                <option value="intermediario">Intermediário</option>
+                                <option value="avancado">Avançado</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Objetivos *</label>
+                        <div class="space-y-2">
+                            <label class="flex items-center">
+                                <input type="checkbox" name="objetivos" value="emagrecimento" class="mr-3 w-5 h-5 border-2 border-black">
+                                <span class="font-semibold">Emagrecimento</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" name="objetivos" value="hipertrofia" class="mr-3 w-5 h-5 border-2 border-black">
+                                <span class="font-semibold">Hipertrofia</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" name="objetivos" value="condicionamento" class="mr-3 w-5 h-5 border-2 border-black">
+                                <span class="font-semibold">Condicionamento Físico</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" name="objetivos" value="saude" class="mr-3 w-5 h-5 border-2 border-black">
+                                <span class="font-semibold">Saúde / Qualidade de Vida</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" name="objetivos" value="performance" class="mr-3 w-5 h-5 border-2 border-black">
+                                <span class="font-semibold">Performance Esportiva</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" name="objetivos" value="reabilitacao" class="mr-3 w-5 h-5 border-2 border-black">
+                                <span class="font-semibold">Reabilitação</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ETAPA 2: Anamnese -->
+                <div id="step2" class="consultoria-step hidden">
+                    <h3 class="text-2xl font-black text-black mb-4 pb-2 border-b-2 border-black">Anamnese e Histórico de Saúde</h3>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Lesões Anteriores</label>
+                        <textarea id="consProfLesoes" rows="3" 
+                                  class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold"
+                                  placeholder="Descreva lesões anteriores, se houver..."></textarea>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Doenças Diagnosticadas</label>
+                        <textarea id="consProfDoencas" rows="2" 
+                                  class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold"
+                                  placeholder="Ex: Hipertensão, Diabetes, etc."></textarea>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Cirurgias Anteriores</label>
+                        <textarea id="consProfCirurgias" rows="2" 
+                                  class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold"></textarea>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Medicamentos em Uso</label>
+                        <textarea id="consProfMedicamentos" rows="2" 
+                                  class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold"></textarea>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Restrições Médicas</label>
+                        <textarea id="consProfRestricoes" rows="2" 
+                                  class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold"></textarea>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Liberação Médica *</label>
+                        <select id="consProfLiberacaoMedica" required 
+                                class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold">
+                            <option value="">Selecione...</option>
+                            <option value="sim">Sim - Possui liberação médica</option>
+                            <option value="nao">Não - Sem liberação médica</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Observações de Saúde</label>
+                        <textarea id="consProfObservacoesSaude" rows="3" 
+                                  class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold"></textarea>
+                    </div>
+                </div>
+                
+                <!-- ETAPA 3: Contexto de Vida -->
+                <div id="step3" class="consultoria-step hidden">
+                    <h3 class="text-2xl font-black text-black mb-4 pb-2 border-b-2 border-black">Contexto de Vida e Rotina</h3>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Dias Disponíveis para Treino *</label>
+                        <div class="grid grid-cols-7 gap-2">
+                            <label class="flex items-center justify-center p-3 border-2 border-black rounded-xl cursor-pointer hover:bg-orange-100 hover:border-orange-500 transition-all duration-200 font-bold">
+                                <input type="checkbox" name="diasDisponiveis" value="1" class="mr-2 w-5 h-5 border-2 border-black">
+                                <span class="text-sm">Seg</span>
+                            </label>
+                            <label class="flex items-center justify-center p-3 border-2 border-black rounded-xl cursor-pointer hover:bg-orange-100 hover:border-orange-500 transition-all duration-200 font-bold">
+                                <input type="checkbox" name="diasDisponiveis" value="2" class="mr-2 w-5 h-5 border-2 border-black">
+                                <span class="text-sm">Ter</span>
+                            </label>
+                            <label class="flex items-center justify-center p-3 border-2 border-black rounded-xl cursor-pointer hover:bg-orange-100 hover:border-orange-500 transition-all duration-200 font-bold">
+                                <input type="checkbox" name="diasDisponiveis" value="3" class="mr-2 w-5 h-5 border-2 border-black">
+                                <span class="text-sm">Qua</span>
+                            </label>
+                            <label class="flex items-center justify-center p-3 border-2 border-black rounded-xl cursor-pointer hover:bg-orange-100 hover:border-orange-500 transition-all duration-200 font-bold">
+                                <input type="checkbox" name="diasDisponiveis" value="4" class="mr-2 w-5 h-5 border-2 border-black">
+                                <span class="text-sm">Qui</span>
+                            </label>
+                            <label class="flex items-center justify-center p-3 border-2 border-black rounded-xl cursor-pointer hover:bg-orange-100 hover:border-orange-500 transition-all duration-200 font-bold">
+                                <input type="checkbox" name="diasDisponiveis" value="5" class="mr-2 w-5 h-5 border-2 border-black">
+                                <span class="text-sm">Sex</span>
+                            </label>
+                            <label class="flex items-center justify-center p-3 border-2 border-black rounded-xl cursor-pointer hover:bg-orange-100 hover:border-orange-500 transition-all duration-200 font-bold">
+                                <input type="checkbox" name="diasDisponiveis" value="6" class="mr-2 w-5 h-5 border-2 border-black">
+                                <span class="text-sm">Sáb</span>
+                            </label>
+                            <label class="flex items-center justify-center p-3 border-2 border-black rounded-xl cursor-pointer hover:bg-orange-100 hover:border-orange-500 transition-all duration-200 font-bold">
+                                <input type="checkbox" name="diasDisponiveis" value="7" class="mr-2 w-5 h-5 border-2 border-black">
+                                <span class="text-sm">Dom</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Tempo Médio por Treino (min) *</label>
+                            <input type="number" id="consProfTempoTreino" min="15" step="15" value="60" required 
+                                   class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Local de Treino *</label>
+                            <select id="consProfLocalTreino" required 
+                                    class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold">
+                                <option value="academia">Academia</option>
+                                <option value="casa">Casa</option>
+                                <option value="ar_livre">Ar Livre</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Equipamentos Disponíveis</label>
+                        <textarea id="consProfEquipamentos" rows="3" 
+                                  class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold"
+                                  placeholder="Descreva os equipamentos disponíveis..."></textarea>
+                    </div>
+                    
+                    <div class="grid grid-cols-3 gap-4 mb-4">
+                        <div>
+                            <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Nível de Estresse *</label>
+                            <select id="consProfNivelEstresse" required 
+                                    class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold">
+                                <option value="baixo">Baixo</option>
+                                <option value="medio" selected>Médio</option>
+                                <option value="alto">Alto</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Qualidade do Sono *</label>
+                            <select id="consProfQualidadeSono" required 
+                                    class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold">
+                                <option value="ruim">Ruim</option>
+                                <option value="media" selected>Média</option>
+                                <option value="boa">Boa</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Rotina de Trabalho *</label>
+                            <select id="consProfRotinaTrabalho" required 
+                                    class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold">
+                                <option value="sedentario" selected>Sedentário</option>
+                                <option value="ativo">Ativo</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ETAPA 4: Planejamento -->
+                <div id="step4" class="consultoria-step hidden">
+                    <h3 class="text-2xl font-black text-black mb-4 pb-2 border-b-2 border-black">Planejamento</h3>
+                    
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Periodização (semanas) *</label>
+                            <select id="consProfPeriodizacao" required 
+                                    class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold">
+                                <option value="4">4 semanas</option>
+                                <option value="8" selected>8 semanas</option>
+                                <option value="12">12 semanas</option>
+                                <option value="16">16 semanas</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Foco do Ciclo *</label>
+                            <select id="consProfFocoCiclo" required 
+                                    class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold">
+                                <option value="forca">Força</option>
+                                <option value="hipertrofia" selected>Hipertrofia</option>
+                                <option value="resistencia">Resistência</option>
+                                <option value="emagrecimento">Emagrecimento</option>
+                                <option value="condicionamento">Condicionamento</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Observações Estratégicas</label>
+                        <textarea id="consProfObservacoesEstrategicas" rows="4" 
+                                  class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold"
+                                  placeholder="Anote estratégias, observações importantes, considerações especiais..."></textarea>
+                    </div>
+                </div>
+                
+                <!-- Botões de Navegação -->
+                <div class="flex justify-between pt-6 border-t-4 border-black">
+                    <button type="button" id="btnPrevStep" class="bg-gray-200 text-gray-700 py-3 px-6 rounded-xl hover:bg-gray-300 transition-all duration-300 font-semibold hidden">
+                        <i class="fas fa-arrow-left mr-2"></i> Anterior
+                    </button>
+                    <div class="flex-1"></div>
+                    <button type="button" id="btnNextStep" class="bg-gradient-to-r from-orange-500 to-orange-600 text-white py-3 px-6 rounded-xl hover:from-orange-600 hover:to-orange-700 shadow-xl border-2 border-black hover:border-orange-700 transition-all duration-300 font-black">
+                        Próximo <i class="fas fa-arrow-right ml-2"></i>
+                    </button>
+                    <button type="submit" id="btnSubmitConsultoria" class="bg-gradient-to-r from-green-500 to-green-600 text-white py-3 px-6 rounded-xl hover:from-green-600 hover:to-green-700 shadow-xl border-2 border-black hover:border-green-700 transition-all duration-300 font-black hidden">
+                        <i class="fas fa-check mr-2"></i> Iniciar Consultoria
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Adicionar Avaliação Física -->
+    <div id="modalAvaliacaoFisica" class="modal hidden">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="flex justify-between items-center mb-6 pb-4 border-b-4 border-black">
+                <h2 class="text-3xl font-black text-black">Nova Avaliação Física</h2>
+                <button id="closeModalAvaliacao" class="text-black hover:text-red-600 border-2 border-black hover:border-red-600 rounded-lg p-2 transition-all duration-200">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+            </div>
+            <form id="formAvaliacaoFisica" class="space-y-4">
+                <div class="mb-4">
+                    <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Tipo de Avaliação *</label>
+                    <select id="avaliacaoTipo" required 
+                            class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold">
+                        <option value="periodica">Periódica</option>
+                        <option value="final">Final</option>
+                    </select>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Data da Avaliação *</label>
+                    <input type="date" id="avaliacaoData" required 
+                           class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold">
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Peso (kg) *</label>
+                        <input type="number" id="avaliacaoPeso" step="0.1" min="1" required 
+                               class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">% Gordura Corporal</label>
+                        <input type="number" id="avaliacaoPercentualGordura" step="0.1" min="0" max="100" 
+                               class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold">
+                    </div>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Medidas Corporais (opcional)</label>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-700 mb-1">Pescoço (cm)</label>
+                            <input type="number" step="0.1" class="avaliacao-medida w-full px-3 py-2 border-2 border-gray-300 rounded-lg font-semibold" data-medida="pescoco">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-700 mb-1">Peito (cm)</label>
+                            <input type="number" step="0.1" class="avaliacao-medida w-full px-3 py-2 border-2 border-gray-300 rounded-lg font-semibold" data-medida="peito">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-700 mb-1">Cintura (cm)</label>
+                            <input type="number" step="0.1" class="avaliacao-medida w-full px-3 py-2 border-2 border-gray-300 rounded-lg font-semibold" data-medida="cintura">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-700 mb-1">Quadril (cm)</label>
+                            <input type="number" step="0.1" class="avaliacao-medida w-full px-3 py-2 border-2 border-gray-300 rounded-lg font-semibold" data-medida="quadril">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-700 mb-1">Braço D. (cm)</label>
+                            <input type="number" step="0.1" class="avaliacao-medida w-full px-3 py-2 border-2 border-gray-300 rounded-lg font-semibold" data-medida="bracoDireito">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-700 mb-1">Braço E. (cm)</label>
+                            <input type="number" step="0.1" class="avaliacao-medida w-full px-3 py-2 border-2 border-gray-300 rounded-lg font-semibold" data-medida="bracoEsquerdo">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-700 mb-1">Coxa D. (cm)</label>
+                            <input type="number" step="0.1" class="avaliacao-medida w-full px-3 py-2 border-2 border-gray-300 rounded-lg font-semibold" data-medida="coxaDireita">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-700 mb-1">Coxa E. (cm)</label>
+                            <input type="number" step="0.1" class="avaliacao-medida w-full px-3 py-2 border-2 border-gray-300 rounded-lg font-semibold" data-medida="coxaEsquerda">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Observações</label>
+                    <textarea id="avaliacaoObservacoes" rows="3" 
+                              class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold"></textarea>
+                </div>
+                
+                <div class="flex gap-4 pt-4">
+                    <button type="submit" class="flex-1 bg-gradient-to-r from-blue-500 to-blue-600 text-white py-4 px-8 rounded-xl hover:from-blue-600 hover:to-blue-700 shadow-xl border-2 border-black hover:border-blue-700 transition-all duration-300 font-black transform hover:-translate-y-1">
+                        <i class="fas fa-save mr-2"></i> Salvar Avaliação
+                    </button>
+                    <button type="button" id="cancelModalAvaliacao" class="flex-1 bg-gray-200 text-gray-700 py-4 px-8 rounded-xl hover:bg-gray-300 transition-all duration-300 font-semibold">
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Adicionar Ajuste -->
+    <div id="modalAjusteConsultoria" class="modal hidden">
+        <div class="modal-content" style="max-width: 700px;">
+            <div class="flex justify-between items-center mb-6 pb-4 border-b-4 border-black">
+                <h2 class="text-3xl font-black text-black">Registrar Ajuste</h2>
+                <button id="closeModalAjuste" class="text-black hover:text-red-600 border-2 border-black hover:border-red-600 rounded-lg p-2 transition-all duration-200">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+            </div>
+            <p class="text-gray-600 text-sm mb-6 italic">
+                <i class="fas fa-info-circle mr-2"></i> Registre o motivo do ajuste. Isso garante histórico, clareza e segurança profissional.
+            </p>
+            <form id="formAjusteConsultoria" class="space-y-4">
+                <div class="mb-4">
+                    <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Tipo de Ajuste *</label>
+                    <select id="ajusteTipo" required 
+                            class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold">
+                        <option value="">Selecione...</option>
+                        <option value="exercicio">Exercício</option>
+                        <option value="volume">Volume</option>
+                        <option value="intensidade">Intensidade</option>
+                        <option value="estrategia">Estratégia</option>
+                    </select>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Descrição do Ajuste *</label>
+                    <textarea id="ajusteDescricao" rows="3" required 
+                              class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold"
+                              placeholder="Descreva o que será ajustado..."></textarea>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Motivo do Ajuste *</label>
+                    <select id="ajusteMotivo" required 
+                            class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold">
+                        <option value="">Selecione...</option>
+                        <option value="dor">Dor relatada</option>
+                        <option value="estagnacao">Estagnação</option>
+                        <option value="evolucao">Evolução positiva</option>
+                        <option value="adaptacao">Adaptação necessária</option>
+                        <option value="objetivo">Mudança de objetivo</option>
+                        <option value="outro">Outro</option>
+                    </select>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-sm font-black text-black mb-2 uppercase tracking-wide">Observações</label>
+                    <textarea id="ajusteObservacoes" rows="3" 
+                              class="w-full px-4 py-3 border-2 border-black rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-500 font-semibold"
+                              placeholder="Observações adicionais (opcional)..."></textarea>
+                </div>
+                
+                <div class="flex gap-4 pt-4">
+                    <button type="submit" class="flex-1 bg-gradient-to-r from-purple-500 to-purple-600 text-white py-4 px-8 rounded-xl hover:from-purple-600 hover:to-purple-700 shadow-xl border-2 border-black hover:border-purple-700 transition-all duration-300 font-black transform hover:-translate-y-1">
+                        <i class="fas fa-save mr-2"></i> Registrar Ajuste
+                    </button>
+                    <button type="button" id="cancelModalAjuste" class="flex-1 bg-gray-200 text-gray-700 py-4 px-8 rounded-xl hover:bg-gray-300 transition-all duration-300 font-semibold">
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="data.js"></script>
+    <script src="exercicios.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
